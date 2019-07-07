@@ -47,12 +47,24 @@ class Grid extends Component {
     };
 
     render() {
-        const { paginationObj, data, exportData,  ...otherProps } = this.props;
-        const _paginationObj = {...defualtPaginationParam, ...paginationObj};
-        _paginationObj.disabled = paginationObj.disabled !== undefined
-            ? paginationObj.disabled
-            : data.length === 0;
-        let _exportData = exportData || data;
+        const {paginationObj, pageNone, data, exportData, ...otherProps} = this.props;
+        let _paginationObj = {...defualtPaginationParam, ...paginationObj};
+
+        let _exportData = exportData;
+
+
+        //  todo 分页
+        if (!pageNone) {
+            _paginationObj.disabled = paginationObj.disabled !== undefined
+                ? paginationObj.disabled
+                : data.length === 0;
+            _exportData = data;
+        }
+
+        if (pageNone) {
+            _paginationObj = 'none';
+        }
+
         return (
             <div className='demo-grid-wrapper'>
                 <BeeGrid

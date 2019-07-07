@@ -29,6 +29,7 @@
     "@babel/runtime": "^7.3.1",
     "ac-attachment": "^0.3.3",
     "ac-drawer": "0.0.2",
+    "ac-hand-table": "0.0.40",
     "async-validator": "1.10.0",
     "axios": "0.18.0",
     "babel-polyfill": "^6.26.0",
@@ -36,9 +37,13 @@
     "bee-complex-grid": "2.0.15",
     "bee-datepicker": "^2.0.44",
     "bee-input-number": "^2.0.15",
+    "bee-label": "^1.0.0",
     "bee-message": "2.0.4",
+    "bee-modal": "^2.0.5",
+    "bee-radio": "^2.0.11",
     "bee-search-panel": "2.0.13",
     "bee-table": "2.0.24",
+    "bee-tooltip": "^2.0.3",
     "classnames": "2.2.6",
     "clone-deep": "4.0.1",
     "mirrorx": "0.2.13",
@@ -52,12 +57,8 @@
     "ref-tree": "2.0.2",
     "ref-tree-table": "2.0.1",
     "tinper-bee": "2.0.11",
-    "yyuap-bpm": "0.3.38",
-    "yyuap-ref": "1.1.67",
-    "bee-label": "^1.0.0",
-    "bee-modal": "^2.0.5",
-    "bee-radio": "^2.0.11",
     "ucf-fe": "^0.1.0",
-    "bee-tooltip": "^2.0.3"
+    "yyuap-bpm": "0.3.38",
+    "yyuap-ref": "1.1.67"
   }
 }

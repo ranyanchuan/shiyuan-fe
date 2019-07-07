@@ -8,8 +8,7 @@ const URL = {
 
     "GET_USER": `${GROBAL_HTTP_CTX}/softstockin/softstockin/listForAdd`, //保存
 
-
-    "GET_DETAIL":`${GROBAL_HTTP_CTX}//softrequire/softrequiremententity/selectBySupplier`, //获取
+    "GET_DETAIL":`${GROBAL_HTTP_CTX}/softrequire/softrequiremententity/selectBySupplier`, //获取
 }
 
 

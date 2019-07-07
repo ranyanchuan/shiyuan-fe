@@ -283,8 +283,7 @@ class IndexView extends Component {
             ]
         };
 
-        entity.sublist = sublist;
-        await actions.masterDetailMainsoftstockin.adds({entity});
+        await actions.masterDetailMainsoftstockin.adds({entity,sublist});
 
     }
 

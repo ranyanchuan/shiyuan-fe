@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {actions} from "mirrorx";
 import {Loading, Icon, Modal} from "tinper-bee";
 import queryString from 'query-string';
+import AcExcelReader from 'ac-excel-reader';
+
 import FormList from 'components/FormList';
 import Grid from 'components/Grid';
 import Header from "components/Header";
@@ -150,8 +152,14 @@ class IndexView extends Component {
                 }
             ],
         },
-        {data: 'qty'},
-        {data: 'price',},
+        {
+            data: 'qty',
+            type: 'numeric', // 申请
+        },
+        {
+            data: 'price',
+            type: 'numeric', // 单价
+        },
     ];
 
 
@@ -289,6 +297,34 @@ class IndexView extends Component {
     }
 
 
+    // 导出csv
+    onExportHeader = () => {
+        this.child.onExportHeader();
+    };
+
+    // 删除多选选中的行
+    onDelRowCheck = () => {
+        this.child.onDelRowCheck();
+    };
+
+
+    // 将excel 转换成json
+    getExcel2Json = (data) => {
+        console.log('data', data);
+        this.setState({ licenseList: data });
+    };
+
+
+    // 导出csv
+    onDownCsv = () => {
+        this.child.onExportCSV();
+    };
+
+    onInsertRowData = () => {
+        this.child.onInsertRowData() // 默认从第一行添加
+    };
+
+
     render() {
         const _this = this;
         const {
@@ -304,6 +340,16 @@ class IndexView extends Component {
         const btnFlag = Number(flag);
 
         const rowEditStatus = btnFlag === 2 ? true : false;
+
+        // excel 列名hash 对照
+        const colKeyHash = {
+            serialId: '流水号',
+            license: 'SN',
+            wzNumber: '物资编号',
+            startDate: '生效日期',
+            endDate: '过期日期',
+        };
+
 
         return (
             <div className='mainContainer'>
@@ -330,7 +376,7 @@ class IndexView extends Component {
 
 
                 {/*软件申请*/}
-                <div className='grid-parent'>
+                <div className='son'>
 
                     <AcHandTable
                         id="son" // 组件id
@@ -338,7 +384,7 @@ class IndexView extends Component {
                         colHeaders={['物资编码', '物资名称', '物资类别', '型号', '规格描述', '品牌', '使用地点', '申请数量', '预计单价']} // 表格表头
                         data={softRequireArray} // 表体数据
                         columns={this.softstockinentityColumn} // 列属性设置
-                        colWidths={[100, 100, 100, 100, 100,100, 100, 100, 100, 100, null]}
+                        colWidths={[50, 100, 100, 100, 100, 100, 100, 100, 100, 100, null]}
                         manualRowMove // 行移动
                         fillHandle={{
                             autoInsertRow: false,
@@ -346,31 +392,63 @@ class IndexView extends Component {
                         }}
                         rowHeaders={false}
                         dropdownMenu={false}
+                        readOnly={true}
+
                         // headerTooltips={true}
                     />
 
                 </div>
 
-                <div className='inline-edit'>
-                    <Header title='软件license'/>
+                <div className='grandson'>
 
                     <div className='table-header'>
                         <Button
-                            role="update"
-                            shape="border"
-                            className="ml8"
-                            // onClick={this.onClickUpdate}
+                            role="add"
+                            onClick={this.onInsertRowData}
+                            colors="primary"
                         >
-                            修改
+                            增行
                         </Button>
+
                         <Button
                             role="delete"
-                            shape="border"
                             className="ml8"
-                            // onClick={this.onClickDelConfirm}
+                            shape="border"
+                            onClick={this.onDelRowCheck}
                         >
                             删除
                         </Button>
+
+
+
+                        <AcExcelReader
+                            getJson={this.getExcel2Json}
+                            // getArray={this.getExcel2Array}
+                            colKeyHash={colKeyHash}
+                        >
+                            <Button
+                                role="update"
+                                className="ml8"
+                                shape="border"
+                            >
+                                上传Excel
+                            </Button>
+                        </AcExcelReader>
+                        <Button
+                            className="ml8"
+                            shape="border"
+                            onClick={this.onDownCsv}
+                        >
+                            导出Excel
+                        </Button>
+                        <Button
+                            shape="border"
+                            className="ml8"
+                            onClick={this.onExportHeader}
+                        >
+                            下载模板
+                        </Button>
+
 
                     </div>
                     <div className='grid-parent'>
@@ -380,7 +458,7 @@ class IndexView extends Component {
                             colHeaders={['流水号', 'SN', '物资编号', '生效日期', '过期日期']} // 表格表头
                             data={licenseList} // 表体数据
                             columns={this.columns} // 列属性设置
-                            colWidths={[100, 100, 100, 100, 100, null]}
+                            colWidths={[50, 100, 100, 100, 100, null]}
                             manualRowMove // 行移动
                             fillHandle={{
                                 autoInsertRow: false,
@@ -388,6 +466,10 @@ class IndexView extends Component {
                             }}
                             rowHeaders={false}
                             dropdownMenu={false}
+                            csvConfig={{
+                                filename: '导出',
+                                columnHeaders: true,
+                            }}
                             // headerTooltips={true}
                         />
                     </div>

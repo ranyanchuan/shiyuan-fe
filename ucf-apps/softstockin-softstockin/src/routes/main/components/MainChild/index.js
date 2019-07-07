@@ -46,7 +46,7 @@ class MainChild extends Component {
         const {rowData} = this.state;
 
         return (
-            <FormList className='formlist detail-body form-panel order-panel'>
+            <FormList className='formlist detail-body form-panel order-panel' layoutOpt={layoutOpt}>
                 <FormItem required label={"订单编号"}>
 
                     <PreCode
@@ -64,6 +64,18 @@ class MainChild extends Component {
                         }
                     />
                 </FormItem>
+
+                <FormItem label={"供应商"}>
+                    <FormControl
+                        disabled={true}
+                        {...getFieldProps('supplier', {
+                                initialValue: rowData.supplier,
+                            }
+                        )}
+                    />
+                </FormItem>
+
+
                 <FormItem label={"入账单位"}>
                     <RefCommon
                         rowData={typeof rowData !== 'undefined' && rowData}
@@ -85,7 +97,7 @@ class MainChild extends Component {
                         onSave={record => {//update 0623
                             // todo xxx
                             const {billid, supplier} = record[0];
-                            rowData.supplier = supplier || 'xxxxx';
+                            rowData.supplier = supplier || '';
 
                             console.log(record[0]);
                             //获取子表
@@ -96,15 +108,7 @@ class MainChild extends Component {
                     />
                     <FormError errorMsg={getFieldError('bu')}/>
                 </FormItem>
-                <FormItem label={"供应商"}>
-                    <FormControl
-                        disabled={true}
-                        {...getFieldProps('supplier', {
-                                initialValue: rowData.supplier,
-                            }
-                        )}
-                    />
-                </FormItem>
+
                 <FormItem label={"采购员"}>
                     <FormControl
                         disabled={typeof btnFlag != 'undefined' && btnFlag == 2}
